@@ -7,14 +7,6 @@ export default class InputBlock extends React.Component {
         inputDate: ""
     };
 
-    // onChangeDate = event => {
-    //     this.setState({ inputDate: event.currentTarget.value });
-    // };
-
-    // onChangeMainInput = event => {
-    //     this.setState({ inputValue: event.currentTarget.value });
-    // };
-
     handleChange = event => {
         const { id, value } = event.currentTarget;
         this.setState({ [id]: value });
