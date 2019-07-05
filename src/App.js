@@ -97,12 +97,41 @@ export default class App extends React.Component {
         }
     };
 
+    filterHandleDate = filter => {
+        if (this.state.sourceItems.length === 0) {
+            this.setState(function(state) {
+                return {
+                    sourceItems: state.tasks
+                };
+            });
+        }
+
+        this.setState(function(state) {
+            return {
+                tasks: state.tasks.filter(item => {
+                    return item.date.indexOf(filter) > -1;
+                })
+            };
+        });
+
+        if (filter === "") {
+            this.setState(function(state) {
+                return {
+                    tasks: state.sourceItems
+                };
+            });
+        }
+    };
+
     render() {
         return (
             <React.Fragment>
                 <InputBlock addNewTask={this.addTask} />
                 <div className="sortFilterBlock">
-                    <FilterBlock filtering={this.filterHandle} />
+                    <FilterBlock
+                        filtering={this.filterHandle}
+                        filteringDate={this.filterHandleDate}
+                    />
                     <SortBlock sorting={this.sortHandle} />
                 </div>
                 <ItemBlock
