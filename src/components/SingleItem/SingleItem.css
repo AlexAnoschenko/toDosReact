@@ -1,0 +1,39 @@
+.singleItem {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    background-color: rgb(255, 255, 255);
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.textItem {
+    flex: 10;
+    padding-left: 10px;
+}
+
+.dateItem {
+    flex: 2;
+}
+
+.closeItem {
+    padding-right: 10px;
+}
+
+.checked {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    background-color: rgb(255, 255, 255);
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAGCAYAAAD68A/GAAAAG0lEQVQYV2NkIBIwEqmOgSSF/4kxFWQidRUCAO1pAwT823VAAAAAAElFTkSuQmCC");
+    background-repeat: repeat-x;
+    background-position: 50% 50%;
+}
