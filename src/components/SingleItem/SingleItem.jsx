@@ -15,13 +15,11 @@ export default class SingleItem extends React.Component {
     };
 
     render() {
-        const { text, date } = this.props.singleItem;
+        const { text, date, checked } = this.props.singleItem;
         return (
             <div
                 className={
-                    this.props.singleItem.checked == true
-                        ? "singleItem checked"
-                        : "singleItem"
+                    checked === true ? "singleItem checked" : "singleItem"
                 }
                 onClick={this.isChecked}
             >

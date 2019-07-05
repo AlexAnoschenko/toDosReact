@@ -30,7 +30,6 @@ export default class App extends React.Component {
                 return item;
             })
         });
-        console.log(this.state);
     };
 
     render() {
