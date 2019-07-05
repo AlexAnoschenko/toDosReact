@@ -4,9 +4,11 @@ import "./App.css";
 import InputBlock from "./components/InputBlock/InputBlock";
 import ItemBlock from "./components/ItemBlock/ItemBlock";
 import SortBlock from "./components/SortBlock/SortBlock";
+import FilterBlock from "./components/FilterBlock/FilterBlock";
 
 export default class App extends React.Component {
     state = {
+        sourceItems: [],
         tasks: [],
         sortStatus: false
     };
@@ -35,14 +37,16 @@ export default class App extends React.Component {
     };
 
     sortHandle = type => {
+        let first = null;
+        let second = null;
         this.setState({
             tasks: this.state.tasks.sort((a, b) => {
                 if (type === "Name") {
-                    var first = a.text.toLowerCase();
-                    var second = b.text.toLowerCase();
+                    first = a.text.toLowerCase();
+                    second = b.text.toLowerCase();
                 } else {
-                    var first = a.date;
-                    var second = b.date;
+                    first = a.date;
+                    second = b.date;
                 }
 
                 if (this.state.sortStatus === false) {
@@ -60,7 +64,6 @@ export default class App extends React.Component {
                 }
             })
         });
-
         this.setState(function(state) {
             return {
                 sortStatus: !state.sortStatus
@@ -68,11 +71,40 @@ export default class App extends React.Component {
         });
     };
 
+    filterHandle = filter => {
+        if (this.state.sourceItems.length === 0) {
+            this.setState(function(state) {
+                return {
+                    sourceItems: state.tasks
+                };
+            });
+        }
+
+        this.setState(function(state) {
+            return {
+                tasks: state.tasks.filter(item => {
+                    return item.text.toLowerCase().indexOf(filter) > -1;
+                })
+            };
+        });
+
+        if (filter === "") {
+            this.setState(function(state) {
+                return {
+                    tasks: state.sourceItems
+                };
+            });
+        }
+    };
+
     render() {
         return (
             <React.Fragment>
                 <InputBlock addNewTask={this.addTask} />
-                <SortBlock sorting={this.sortHandle} />
+                <div className="sortFilterBlock">
+                    <FilterBlock filtering={this.filterHandle} />
+                    <SortBlock sorting={this.sortHandle} />
+                </div>
                 <ItemBlock
                     changeCheck={this.changeCheck}
                     onDelete={this.deleteTask}
