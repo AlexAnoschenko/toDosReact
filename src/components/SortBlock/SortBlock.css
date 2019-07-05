@@ -1,0 +1,10 @@
+.sortBlock {
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    margin-top: 5px;
+}
+
+.sortButton {
+    width: 50px;
+}

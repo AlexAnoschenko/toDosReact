@@ -3,10 +3,12 @@ import "./App.css";
 
 import InputBlock from "./components/InputBlock/InputBlock";
 import ItemBlock from "./components/ItemBlock/ItemBlock";
+import SortBlock from "./components/SortBlock/SortBlock";
 
 export default class App extends React.Component {
     state = {
-        tasks: []
+        tasks: [],
+        sortStatus: false
     };
 
     addTask = newTask => {
@@ -32,10 +34,45 @@ export default class App extends React.Component {
         });
     };
 
+    sortHandle = type => {
+        this.setState({
+            tasks: this.state.tasks.sort((a, b) => {
+                if (type === "Name") {
+                    var first = a.text.toLowerCase();
+                    var second = b.text.toLowerCase();
+                } else {
+                    var first = a.date;
+                    var second = b.date;
+                }
+
+                if (this.state.sortStatus === false) {
+                    if (first > second) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    if (first > second) {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }
+            })
+        });
+
+        this.setState(function(state) {
+            return {
+                sortStatus: !state.sortStatus
+            };
+        });
+    };
+
     render() {
         return (
             <React.Fragment>
                 <InputBlock addNewTask={this.addTask} />
+                <SortBlock sorting={this.sortHandle} />
                 <ItemBlock
                     changeCheck={this.changeCheck}
                     onDelete={this.deleteTask}
