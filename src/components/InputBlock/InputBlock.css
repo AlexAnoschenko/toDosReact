@@ -1,0 +1,16 @@
+.inputBlock {
+  display: flex;
+  justify-content: center;
+  height: 30px;
+  margin-top: 10px;
+}
+
+.mainInput {
+  padding-left: 10px;
+  width: 600px;
+}
+
+.addButton {
+  width: 50px;
+  border: 1px solid black;
+}

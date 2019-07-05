@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import InputBlock from "./components/InputBlock/InputBlock";
+import ItemBlock from "./components/ItemBlock/ItemBlock";
+
+export default class App extends React.Component {
+    state = {
+        tasks: []
+    };
+
+    addTask = newTask => {
+        this.setState(state => ({ tasks: [...state.tasks, newTask] }));
+    };
+
+    deleteTask = id => {
+        this.setState({
+            tasks: this.state.tasks.filter(item => {
+                return item.id !== id && item;
+            })
+        });
+    };
+
+    changeCheck = id => {
+        this.setState({
+            tasks: this.state.tasks.map(item => {
+                if (item.id === id) {
+                    item.checked = !item.checked;
+                }
+                return item;
+            })
+        });
+    };
+
+    render() {
+        return (
+            <React.Fragment>
+                <InputBlock addNewTask={this.addTask} />
+                <ItemBlock
+                    changeCheck={this.changeCheck}
+                    onDelete={this.deleteTask}
+                    itemsList={this.state.tasks}
+                />
+            </React.Fragment>
+        );
+    }
 }
-
-export default App;
