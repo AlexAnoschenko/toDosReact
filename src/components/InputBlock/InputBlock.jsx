@@ -12,7 +12,7 @@ export default class InputBlock extends React.Component {
         this.setState({ [id]: value });
     };
 
-    onClickAddButton = () => {
+    onClickAddButton = (filter) => {
         this.props.addNewTask({
             text: this.state.inputValue,
             date: this.state.inputDate,
