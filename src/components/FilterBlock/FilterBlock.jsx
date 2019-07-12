@@ -2,14 +2,16 @@ import React from "react";
 import "./FilterBlock.css";
 
 export default class FilterBlock extends React.Component {
-    onChangeFilterText = event => {
-        var textFilter = event.currentTarget.value.toLowerCase();
-        this.props.filtering(textFilter);
-    };
-
-    onChangeFilterData = event => {
-        var dateFilter = event.currentTarget.value;
-        this.props.filteringDate(dateFilter);
+    onChangeFilter = event => {
+        let filtedData = event.currentTarget.value;
+        if (event.currentTarget.type === "text") {
+            this.props.filtering(
+                filtedData.toLowerCase(),
+                event.currentTarget.type
+            );
+        } else {
+            this.props.filtering(filtedData, event.currentTarget.type);
+        }
     };
 
     render() {
@@ -19,13 +21,13 @@ export default class FilterBlock extends React.Component {
                     type="text"
                     className="filterInput"
                     placeholder="Text..."
-                    onChange={this.onChangeFilterText}
+                    onChange={this.onChangeFilter}
                 />
                 <input
                     type="date"
                     className="filterInput"
                     placeholder="Date..."
-                    onChange={this.onChangeFilterData}
+                    onChange={this.onChangeFilter}
                 />
             </div>
         );

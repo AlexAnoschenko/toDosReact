@@ -36,7 +36,7 @@ export default class App extends React.Component {
         });
     };
 
-    sortHandle = type => {
+    sortHandler = type => {
         let first = null;
         let second = null;
         this.setState({
@@ -71,7 +71,7 @@ export default class App extends React.Component {
         });
     };
 
-    filterHandle = filter => {
+    filterHandler = (filter, contentType) => {
         if (this.state.sourceItems.length === 0) {
             this.setState(function(state) {
                 return {
@@ -79,39 +79,21 @@ export default class App extends React.Component {
                 };
             });
         }
-
+  
         this.setState(function(state) {
-            return {
-                tasks: state.tasks.filter(item => {
-                    return item.text.toLowerCase().indexOf(filter) > -1;
-                })
-            };
-        });
-
-        if (filter === "") {
-            this.setState(function(state) {
+            if (contentType === "text") {
                 return {
-                    tasks: state.sourceItems
+                    tasks: state.tasks.filter(item => {
+                        return item.text.toLowerCase().indexOf(filter) > -1;
+                    })
                 };
-            });
-        }
-    };
-
-    filterHandleDate = filter => {
-        if (this.state.sourceItems.length === 0) {
-            this.setState(function(state) {
+            } else if (contentType === "date") {
                 return {
-                    sourceItems: state.tasks
+                    tasks: state.tasks.filter(item => {
+                        return item.date.indexOf(filter) > -1;
+                    })
                 };
-            });
-        }
-
-        this.setState(function(state) {
-            return {
-                tasks: state.tasks.filter(item => {
-                    return item.date.indexOf(filter) > -1;
-                })
-            };
+            }
         });
 
         if (filter === "") {
@@ -128,11 +110,8 @@ export default class App extends React.Component {
             <React.Fragment>
                 <InputBlock addNewTask={this.addTask} />
                 <div className="sortFilterBlock">
-                    <FilterBlock
-                        filtering={this.filterHandle}
-                        filteringDate={this.filterHandleDate}
-                    />
-                    <SortBlock sorting={this.sortHandle} />
+                    <FilterBlock filtering={this.filterHandler} />
+                    <SortBlock sorting={this.sortHandler} />
                 </div>
                 <ItemBlock
                     changeCheck={this.changeCheck}
