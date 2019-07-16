@@ -1,7 +1,9 @@
 import React from "react";
 import "./InputBlock.css";
+import { connect } from "react-redux";
+import { addSingleItem } from "../store/actions";
 
-export default class InputBlock extends React.Component {
+class InputBlock extends React.Component {
     state = {
         inputValue: "",
         inputDate: ""
@@ -12,8 +14,8 @@ export default class InputBlock extends React.Component {
         this.setState({ [id]: value });
     };
 
-    onClickAddButton = (filter) => {
-        this.props.addNewTask({
+    onClickAddButton = filter => {
+        this.props.addSingleItem({
             text: this.state.inputValue,
             date: this.state.inputDate,
             id: Date.now(),
@@ -50,3 +52,14 @@ export default class InputBlock extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addSingleItem: item => dispatch(addSingleItem(item))
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(InputBlock);

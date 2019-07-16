@@ -8,6 +8,11 @@ export default class SingleItem extends React.Component {
         }
     };
 
+    sayHallo = () => {
+        console.log(this.props.singleItem);
+        return this.props.sayHallo();
+    };
+
     isChecked = event => {
         if (event.target.className !== "closeItem") {
             this.props.changeCheck(this.props.singleItem.id);
@@ -19,7 +24,9 @@ export default class SingleItem extends React.Component {
         return (
             <div
                 className={
-                    checked === true ? "singleItem checked" : "singleItem"
+                    checked === true
+                        ? "singleItem checked"
+                        : "singleItem"
                 }
                 onClick={this.isChecked}
             >

@@ -1,124 +1,43 @@
 import React from "react";
 import "./App.css";
+import { connect } from "react-redux";
+import { sortSingleItem, filterSingleItem } from "./components/store/actions";
 
 import InputBlock from "./components/InputBlock/InputBlock";
 import ItemBlock from "./components/ItemBlock/ItemBlock";
 import SortBlock from "./components/SortBlock/SortBlock";
 import FilterBlock from "./components/FilterBlock/FilterBlock";
 
-export default class App extends React.Component {
-    state = {
-        sourceItems: [],
-        tasks: [],
-        sortStatus: false
-    };
-
-    addTask = newTask => {
-        this.setState(state => ({ tasks: [...state.tasks, newTask] }));
-    };
-
-    deleteTask = id => {
-        this.setState({
-            tasks: this.state.tasks.filter(item => {
-                return item.id !== id && item;
-            })
-        });
-    };
-
-    changeCheck = id => {
-        this.setState({
-            tasks: this.state.tasks.map(item => {
-                if (item.id === id) {
-                    item.checked = !item.checked;
-                }
-                return item;
-            })
-        });
-    };
-
-    sortHandler = type => {
-        let first = null;
-        let second = null;
-        this.setState({
-            tasks: this.state.tasks.sort((a, b) => {
-                if (type === "Name") {
-                    first = a.text.toLowerCase();
-                    second = b.text.toLowerCase();
-                } else {
-                    first = a.date;
-                    second = b.date;
-                }
-
-                if (this.state.sortStatus === false) {
-                    if (first > second) {
-                        return 1;
-                    } else {
-                        return -1;
-                    }
-                } else {
-                    if (first > second) {
-                        return -1;
-                    } else {
-                        return 1;
-                    }
-                }
-            })
-        });
-        this.setState(function(state) {
-            return {
-                sortStatus: !state.sortStatus
-            };
-        });
-    };
-
-    filterHandler = (filter, contentType) => {
-        if (this.state.sourceItems.length === 0) {
-            this.setState(function(state) {
-                return {
-                    sourceItems: state.tasks
-                };
-            });
-        }
-  
-        this.setState(function(state) {
-            if (contentType === "text") {
-                return {
-                    tasks: state.tasks.filter(item => {
-                        return item.text.toLowerCase().indexOf(filter) > -1;
-                    })
-                };
-            } else if (contentType === "date") {
-                return {
-                    tasks: state.tasks.filter(item => {
-                        return item.date.indexOf(filter) > -1;
-                    })
-                };
-            }
-        });
-
-        if (filter === "") {
-            this.setState(function(state) {
-                return {
-                    tasks: state.sourceItems
-                };
-            });
-        }
-    };
-
+class App extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <InputBlock addNewTask={this.addTask} />
+                <InputBlock />
                 <div className="sortFilterBlock">
-                    <FilterBlock filtering={this.filterHandler} />
-                    <SortBlock sorting={this.sortHandler} />
+                    <FilterBlock filtering={this.props.filterSingleItem} />
+                    <SortBlock sorting={this.props.sortSingleItem} />
                 </div>
-                <ItemBlock
-                    changeCheck={this.changeCheck}
-                    onDelete={this.deleteTask}
-                    itemsList={this.state.tasks}
-                />
+                <ItemBlock sourceItems={this.props.sourceItems} />
             </React.Fragment>
         );
     }
 }
+
+const mapStateToProps = store => {
+    return {
+        sourceItems: store.sourceItems
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        filterSingleItem: (filter, type) =>
+            dispatch(filterSingleItem(filter, type)),
+        sortSingleItem: type => dispatch(sortSingleItem(type))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);

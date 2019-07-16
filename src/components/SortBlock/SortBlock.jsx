@@ -7,20 +7,19 @@ export default class SortBlock extends React.Component {
     };
 
     render() {
-        const { sorting } = this.props;
         return (
             <div className="sortBlock">
                 <input
                     type="button"
                     value="Name"
                     className="sortButton"
-                    onClick={sorting}
+                    onClick={this.onClickName}
                 />
                 <input
                     type="button"
                     value="Date"
                     className="sortButton"
-                    onClick={sorting}
+                    onClick={this.onClickName}
                 />
             </div>
         );

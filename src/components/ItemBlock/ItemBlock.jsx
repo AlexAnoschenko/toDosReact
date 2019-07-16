@@ -1,19 +1,21 @@
 import React from "react";
 import "./ItemBlock.css";
 import SingleItem from "../SingleItem/SingleItem";
+import { connect } from "react-redux";
+import { deleteSingleItem, checkSingleItem } from "../store/actions";
 
-export default class ItemBlock extends React.Component {
+class ItemBlock extends React.Component {
     renderSingleItems = () => {
-        const { itemsList, onDelete, changeCheck } = this.props;
+        const { sourceItems } = this.props;
 
-        if (itemsList.length) {
-            return itemsList.map(item => {
+        if (sourceItems.length) {
+            return sourceItems.map(item => {
                 return (
                     <SingleItem
-                        deleteTask={onDelete}
+                        deleteTask={this.props.deleteSingleItem}
+                        changeCheck={this.props.checkSingleItem}
                         singleItem={item}
                         key={item.id}
-                        changeCheck={changeCheck}
                     />
                 );
             });
@@ -23,3 +25,15 @@ export default class ItemBlock extends React.Component {
         return <div className="itemBlock">{this.renderSingleItems()}</div>;
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        checkSingleItem: id => dispatch(checkSingleItem(id)),
+        deleteSingleItem: id => dispatch(deleteSingleItem(id))
+    };
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(ItemBlock);
